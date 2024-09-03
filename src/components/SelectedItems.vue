@@ -1,15 +1,21 @@
 <script setup>
-import Item from '@/components/Item.vue';
+import ProductItem from '@/components/ProductItem.vue';
+import AppButton from '@/components/UI/AppButton.vue';
+
 
 defineProps({
   selectedItems: Array,
   title: String
 })
 
-const emit = defineEmits(['remove'])
+const emit = defineEmits(['remove', 'clear'])
 
-const removeItem = (item) => {
-  emit('remove', item)
+const removeItem = (product) => {
+  emit('remove', product)
+}
+
+const clearSelectedList = () => {
+  emit('clear')
 }
 </script>
 
@@ -30,34 +36,49 @@ const removeItem = (item) => {
       No item selected
     </p>
 
-    <ul v-if="selectedItems.length">
-      <Item  
-        v-for="item in selectedItems" 
-        :key="item.id"
-        :item="item"
-        @click="removeItem(item)"
-      >
-      </Item>
-    </ul>
-    
-    <p
-      :class="{ 'limit-selected': selectedItems.length >= 6 }" 
-      v-if="selectedItems.length > 0 && title === 'Selected User Items'"
+    <div  
+      v-if="selectedItems.length"
+      class="list"
     >
+      <ProductItem  
+        v-for="product in selectedItems" 
+        :key="product.id"
+        :product="product"
+        @click="removeItem(product)"
+      />
+    </div>
+    
+    <div>
+      <p
+        :class="{ 'limit-selected': selectedItems.length >= 6 }" 
+        v-if="selectedItems.length > 0 && title === 'Selected User Items'"
+      >
         Selected: {{ selectedItems.length  }} / 6
-    </p>
+      </p>
+
+      <AppButton 
+        v-if="selectedItems.length > 1 && title === 'Selected User Items'"
+        label="Clear Selected List"
+        color="warning"
+        size="small" 
+        outlined
+        @click="clearSelectedList"
+      />
+    </div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .no-items {
     padding: 10px;
-    color: #ff0000;
-    border: 1px solid #000;
+    text-align: center;
+    color: var(--danger);
+    border: 1px solid var(--vt-c-divider-dark-2);
+    border-radius: 10px;
   }
 
   .limit-selected {
     font-weight: bold;
-    color: #ff0000;
+    color: var(--danger);
   }
 </style>

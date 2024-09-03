@@ -14,21 +14,11 @@ a {
   padding: 3px;
 }
 
-ul {
-  list-style-type: none;
+.list {
   padding: 10px;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  border: 1px solid #000;
-}
-
-li {
-  padding: 5px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
-
-li:hover {
-  background-color: #f0f0f0;
+  border: 1px solid var(--vt-c-divider-dark-2);
+  border-radius: 10px;
 }

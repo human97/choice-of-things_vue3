@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import ItemList from '@/components/ItemList.vue'
+import ItemList from '@/components/ListProductItems.vue'
 import SelectedItems from '@/components/SelectedItems.vue'
 
 const userItems = [
@@ -28,31 +28,31 @@ const choiceItems = [
 const selectedUserItems = ref([])
 const selectedChoiceItem = ref([])
 
-const handleUserItemSelect = (item) => {
+const handleUserItemSelect = (product) => {
   if (selectedUserItems.value.length < 6) {
-    selectedUserItems.value.push(item)
+    selectedUserItems.value.push(product)
   } else {
     alert('Вы уже выбрали 6 вещей!')
   }
 }
 
-const handleUserItemRemove = (item) => {
+const handleUserItemRemove = (product) => {
   if (selectedUserItems.value.length > 0) {
-    selectedUserItems.value.shift(item)
+    selectedUserItems.value.shift(product)
   }
 }
 
-const handleChoiceItemSelect = (item) => {
+const handleChoiceItemSelect = (product) => {
   if (selectedChoiceItem.value.length === 0) {
-    selectedChoiceItem.value.push(item)
-  } else if (selectedChoiceItem.value[0].id !== item.id) {
-    selectedChoiceItem.value[0] = item
+    selectedChoiceItem.value.push(product)
+  } else if (selectedChoiceItem.value[0].id !== product.id) {
+    selectedChoiceItem.value[0] = product
   }
 }
 
-const handleChoiceItemRemove = (item) => {
+const handleChoiceItemRemove = (product) => {
   if (selectedChoiceItem.value.length === 1) {
-    selectedChoiceItem.value.shift(item)
+    selectedChoiceItem.value.shift(product)
   }
 }
 </script>
@@ -64,6 +64,7 @@ const handleChoiceItemRemove = (item) => {
         title="Selected User Items" 
         :selectedItems="selectedUserItems" 
         @remove="handleUserItemRemove"
+        @clear="selectedUserItems = []"
       />
       <SelectedItems  
         title="Selected Choice Item" 
@@ -75,12 +76,12 @@ const handleChoiceItemRemove = (item) => {
     <div class="bottom-blocks">
       <ItemList 
         title="User Items" 
-        :items="userItems" 
+        :products="userItems" 
         @select="handleUserItemSelect"
       />
       <ItemList
         title="Choice Items"
-        :items="choiceItems"
+        :products="choiceItems"
         @select="handleChoiceItemSelect"
       />
     </div>
